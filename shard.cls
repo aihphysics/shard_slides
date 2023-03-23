@@ -3,6 +3,7 @@
 \RequirePackage{textpos}
 \RequirePackage{calc}
 \RequirePackage{graphicx}
+\RequirePackage{pifont}
 \RequirePackage{transparent}
 \RequirePackage[linktoc=none]{hyperref}
 \RequirePackage{eso-pic}
@@ -14,22 +15,25 @@
 \RequirePackage{xcolor}
 \RequirePackage{fontawesome5}
 \RequirePackage[page]{totalcount}
+\RequirePackage{kvoptions}
 %%\RequirePackage{contents}
 \RequirePackage[most]{tcolorbox}
 \RequirePackage[nott, scaled=0.5]{inconsolata}
 \RequirePackage[T1]{fontenc}
 \RequirePackage{calculator}
 \RequirePackage{ifthen}
+\RequirePackage{xparse}
 %%\RequirePackage[tocflat]{tocstyle}
 
 %%\renewcommand*\familydefault{\ttdefault} %% Only
 
-\newcommand{\titling}{\fontsize{15pt}{10pt}\selectfont}
+\newcommand{\titling}{\fontsize{18pt}{7pt}\selectfont}
 \newcommand{\large}{\fontsize{15pt}{8pt}\selectfont}
 \newcommand{\Large}{\fontsize{15pt}{8pt}\selectfont}
 \newcommand{\normal}{\fontsize{10pt}{10pt}\selectfont}
+\newcommand{\header}{\fontsize{12pt}{10pt}\selectfont}
 \renewcommand{\normalsize}{\fontsize{10pt}{10pt}}
-\newcommand{\small}{\fontsize{4pt}{6pt}}
+\newcommand{\small}{\fontsize{4pt}{6pt}\selectfont}
 \setlength{\paperwidth}{12.80cm}
 \setlength{\paperheight}{9.60cm}
 \setlength\parindent{0pt}
@@ -50,7 +54,7 @@
 \def\token{TOKEN}
 
 \newcommand\tableofcontents{%
-	\raggedright Progress\\\@starttoc{toc}
+    \raggedright \header{\underline{Progress}:}\normal\\\@starttoc{toc}
 }
 
 \newcommand{\secmark}{\sectionmark}
@@ -62,20 +66,48 @@
   \addcontentsline{toc}{section}{#1\\}% Add section to ToC
 }
 
-\renewenvironment{frame}[1]
+\newcommand{\idot}{{\textcolor{white}{\textbullet}}}
+\newcommand{\bdot}{{\textcolor{black}{\textbullet}}}
+
+
+%%\renewenvironment{frame}[2][Title]
+\RenewDocumentEnvironment{frame}{O{Title} O{0} O{{}} O{0} O{{}} }
 	{ 
 		\newpage 
-
         \normal
 		\begin{bgbox}[ height=\paperheight, colback=darkgray, width=0.3\textwidth, rightrule=0pt ]
 		\vbox to 0.9\textheight{
 		\color{white}
 		\begin{center}
-            \titling #1\\
+            \vspace{0.1cm}
+            \titling{ #1 } \\
 			\normal{\secmark }
+            \vspace{0.1cm}
 		\end{center}
 		\tableofcontents
 		\vfill
+        \ifthenelse{ \equal{#4}{0} }{
+			\message{noref}	
+		}{
+            \header{\underline{Learning Outcomes}:}\normal
+			\begin{itemize}
+			\@for\refitem:=#5\do{%
+				\item[\idot\;\;]\refitem	
+			}
+			\end{itemize}
+			\message{ref}	
+		}
+		\ifthenelse{ \equal{#2}{0} }{
+			\message{noref}	
+		}{
+            \vspace{0.3cm}
+            \header{\underline{References}:}\normal
+			\begin{itemize}
+			\@for\refitem:=#3\do{%
+				\item[\idot\;\;]\refitem	
+			}
+			\end{itemize}
+		}
 		\begin{center}
 			\thepage/\pageref*{LastPage}
 		\end{center}
