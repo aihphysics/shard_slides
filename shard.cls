@@ -23,9 +23,7 @@
 \RequirePackage{calculator}
 \RequirePackage{ifthen}
 \RequirePackage{xparse}
-%%\RequirePackage[tocflat]{tocstyle}
 
-%%\renewcommand*\familydefault{\ttdefault} %% Only
 
 \newcommand{\titling}{\fontsize{18pt}{7pt}\selectfont}
 \newcommand{\large}{\fontsize{15pt}{8pt}\selectfont}
@@ -43,12 +41,23 @@
 \RequirePackage{lastpage}
 \RequirePackage[ subdivisions=3, heightr=1, width=\textwidth, borderwidth=0.0pt, roundnessa=0pt, linecolor=darkgray, tickswidth=0.0pt, ticksheight=0.0pt, emptycolor=gray, filledcolor=black]{ progressbar }
 
-\AtEndDocument{ 
-	\immediate\write\@auxout{\gdef\string\notinitial{1}}
+
+\AtBeginDocument{
+    \newcounter{sectionwritecounter}
+    \setcounter{sectionwritecounter}{0}
+    \def\sectionlist{}
+    \newcounter{section}
+    \setcounter{section}{0}
+    \newcounter{sectionprintout}
+
 }
 
-\newcounter{section}
-\setcounter{section}{0}
+\AtEndDocument{ 
+	\immediate\write\@auxout{\gdef\string\notinitial{1}}
+    \immediate\write\@auxout{\gdef\string\outsection{\sectionlist}}
+    \immediate\write\@auxout{\gdef\string\totalsections{\thesection}}
+}
+
 
 \newtcolorbox{bgbox}[1][]{nobeforeafter,leftright skip=0in,boxrule=0pt,enhanced jigsaw,sharp corners,#1}
 \def\token{TOKEN}
@@ -64,6 +73,8 @@
   \renewcommand{\secmark}{\sectionmark[#1}
   %%\addcontentsline{toc}{section}{\protect\numberline{\thesection}#1}% Add section to ToC
   \addcontentsline{toc}{section}{#1\\}% Add section to ToC
+  \g@addto@macro\sectionlist{#1,}
+  \message{\sectionlist}
 }
 
 \newcommand{\idot}{{\textcolor{white}{\textbullet}}}
@@ -84,7 +95,23 @@
 			\normal{\secmark }
             \vspace{0.1cm}
 		\end{center}
-		\tableofcontents
+		\ifcsname notinitial\endcsname
+            \header{\underline{Contents}:}\\\normal
+            \setcounter{sectionprintout}{1}
+            \@for\content:=\outsection\do{%
+                \ADD{\totalsections}{1}{\sectionlimit}
+                \ifthenelse{ \thesectionprintout < \sectionlimit }{
+                    \ifthenelse{ \thesection = \thesectionprintout}{
+                        \textcolor{white}{\thesectionprintout\hfill\content}
+                    }{
+                        \textcolor{gray}{\thesectionprintout\hfill\content}
+                    }\\
+                \addtocounter{sectionprintout}{1}
+                }{}
+			}
+        \else
+            \header{\underline{RERUN FOR CONTENTS}}
+        \fi
 		\vfill
         \ifthenelse{ \equal{#4}{0} }{
 			\message{noref}	
@@ -128,4 +155,3 @@
 	}
 	
 \pagenumbering{arabic}
-
