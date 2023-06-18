@@ -26,6 +26,7 @@
 
 
 \newcommand{\titling}{\fontsize{18pt}{7pt}\selectfont}
+\newcommand{\BigTit}{\fontsize{25pt}{30pt}\selectfont}
 \newcommand{\large}{\fontsize{15pt}{8pt}\selectfont}
 \newcommand{\Large}{\fontsize{15pt}{8pt}\selectfont}
 \newcommand{\normal}{\fontsize{10pt}{10pt}\selectfont}
@@ -79,6 +80,38 @@
 
 \newcommand{\idot}{{\textcolor{white}{\textbullet}}}
 \newcommand{\bdot}{{\textcolor{black}{\textbullet}}}
+
+
+\NewDocumentCommand \titleframe {O{Title} O{Subtitle} O{Author} O{Location/Date} }
+    { 
+        \normal
+	    \begin{bgbox}[ height=0.1\paperheight, colback=darkgray, width=\textwidth, rightrule=0pt ]
+        \end{bgbox}
+        \begin{bgbox}[ height=0.4\paperheight, colback=gray, width=\textwidth, rightrule=0pt ]
+            \vspace{30pt}
+            \begin{center}
+            \BigTit #1
+            \vspace{10pt}
+            \titling \\ #2
+            \end{center}
+            \vfill
+		\end{bgbox}
+	    \begin{bgbox}[ height=0.5\paperheight, colback=darkgray, width=0.5\textwidth, rightrule=0pt ]
+            \vspace{30pt}
+            \begin{center}
+                \includegraphics[width=0.6\textwidth]{ATLAS_LOGO.png}
+            \end{center}
+        \end{bgbox}\begin{bgbox}[ height=0.5\paperheight, colback=darkgray, width=0.5\textwidth, rightrule=0pt ]
+            \vspace{45pt}
+            \begin{center}
+                \color{white}
+                \titling #3 \\ #4
+            \end{center}
+
+        \end{bgbox}
+	}
+
+
 
 
 %%\renewenvironment{frame}[2][Title]
