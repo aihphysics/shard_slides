@@ -26,9 +26,12 @@
 
 
 \newcommand{\titling}{\fontsize{18pt}{7pt}\selectfont}
-\newcommand{\BigTit}{\fontsize{25pt}{30pt}\selectfont}
-\newcommand{\large}{\fontsize{15pt}{8pt}\selectfont}
-\newcommand{\Large}{\fontsize{15pt}{8pt}\selectfont}
+\newcommand{\titlingB}{\fontsize{18pt}{10pt}\selectfont}
+\newcommand{\BigTitle}{\fontsize{25pt}{30pt}\selectfont}
+%%\newcommand{\large}{\fontsize{15pt}{9pt}\selectfont}
+\newcommand{\large}{\fontsize{18pt}{10pt}\selectfont}
+\newcommand{\Large}{\fontsize{15pt}{12pt}\selectfont}
+\newcommand{\body}{\fontsize{18pt}{12pt}\selectfont}
 \newcommand{\normal}{\fontsize{10pt}{10pt}\selectfont}
 \newcommand{\header}{\fontsize{12pt}{10pt}\selectfont}
 \renewcommand{\normalsize}{\fontsize{10pt}{10pt}}
@@ -36,12 +39,15 @@
 \setlength{\paperwidth}{12.80cm}
 \setlength{\paperheight}{9.60cm}
 \setlength\parindent{0pt}
+\newcommand{\sss}{ \scriptscriptstyle }
 
 \RequirePackage[ papersize={\paperwidth, \paperheight}, hmargin=0in, vmargin=0cm,
                  head=0.5cm, headsep=0cm, foot=0.5cm, right=0cm ]{geometry}
 \RequirePackage{lastpage}
 \RequirePackage[ subdivisions=3, heightr=1, width=\textwidth, borderwidth=0.0pt, roundnessa=0pt, linecolor=darkgray, tickswidth=0.0pt, ticksheight=0.0pt, emptycolor=gray, filledcolor=black]{ progressbar }
 
+\setlength\labelsep{3pt}
+\setlength\leftmargin{12pt}
 
 \AtBeginDocument{
     \newcounter{sectionwritecounter}
@@ -61,6 +67,7 @@
 
 
 \newtcolorbox{bgbox}[1][]{nobeforeafter,leftright skip=0in,boxrule=0pt,enhanced jigsaw,sharp corners,#1}
+\newtcolorbox{bgbox2}[1][]{nobeforeafter,leftright skip=0in,boxrule=0pt,enhanced jigsaw,sharp corners,#1,left=5pt,right=5pt,top=10pt,bottom=10pt}
 \def\token{TOKEN}
 
 \newcommand\tableofcontents{%
@@ -81,18 +88,21 @@
 \newcommand{\idot}{{\textcolor{white}{\textbullet}}}
 \newcommand{\bdot}{{\textcolor{black}{\textbullet}}}
 
+\setlength\itemsep{1em}
+ 
 
-\NewDocumentCommand \titleframe {O{Title} O{Subtitle} O{Author} O{Location/Date} }
+\NewDocumentCommand \titleframe{O{Title} O{Subtitle} O{Author} O{Location/Date} }
     { 
         \normal
+        \pagecolor{darkgray}
 	    \begin{bgbox}[ height=0.1\paperheight, colback=darkgray, width=\textwidth, rightrule=0pt ]
         \end{bgbox}
-        \begin{bgbox}[ height=0.4\paperheight, colback=gray, width=\textwidth, rightrule=0pt ]
+        \begin{bgbox}[ height=0.4\paperheight, colback=white, width=\textwidth, rightrule=0pt ]
             \vspace{30pt}
             \begin{center}
-            \BigTit #1
+            \BigTitle#1
             \vspace{10pt}
-            \titling \\ #2
+            \titling\\#2
             \end{center}
             \vfill
 		\end{bgbox}
@@ -115,17 +125,19 @@
 
 
 %%\renewenvironment{frame}[2][Title]
-\RenewDocumentEnvironment{frame}{O{Title} O{0} O{{}} O{0} O{{}} }
+%%\RenewDocumentEnvironment{frame}{O{Title} O{Author} O{Date} O{Collaboration} O{{}} }
+    \RenewDocumentEnvironment{frame}{O{Title} O{Author} O{Date} O{Collaboration} O{{}} O{CENTER} }
 	{ 
 		\newpage 
+        \pagecolor{darkgray}
         \normal
-		\begin{bgbox}[ height=\paperheight, colback=darkgray, width=0.3\textwidth, rightrule=0pt ]
+		\begin{bgbox2}[ height=\paperheight, colback=darkgray, width=0.2\textwidth, rightrule=0pt ]
 		\vbox to 0.9\textheight{
 		\color{white}
 		\begin{center}
             \vspace{0.1cm}
-            \titling{ #1 } \\
-			\normal{\secmark }
+            \titlingB{#1} \\
+			\normal{\secmark}
             \vspace{0.1cm}
 		\end{center}
 		\ifcsname notinitial\endcsname
@@ -179,10 +191,17 @@
 		\fi
 		\progressbar{\fracprogress }
 		}
-		\end{bgbox}\begin{bgbox}[ height=\paperheight, colback=gray, width=0.7\textwidth, rightrule=0pt ]
-		\normal
+		\end{bgbox2}\begin{bgbox}[ height=\paperheight, colback=white, width=0.8\textwidth, rightrule=0pt ]
+		\body
+        \ifthenelse{ \equal{#6}{1} }{
+            \begin{minipage}[t][0.9\textheight][c]{\textwidth}%
+        }
 	}
 	{
+        \ifthenelse{ \equal{#6}{1} }{
+            \end{minipage}
+        }
+
 		\end{bgbox}
 		\pagebreak
 	}
