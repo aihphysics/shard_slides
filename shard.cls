@@ -1,5 +1,8 @@
 \ProvidesClass{shard}[22/03/23 Class for typesetting presentations]
 
+
+
+%% Require packages
 \RequirePackage{textpos}
 \RequirePackage{calc}
 \RequirePackage{graphicx}
@@ -16,39 +19,63 @@
 \RequirePackage{fontawesome5}
 \RequirePackage[page]{totalcount}
 \RequirePackage{kvoptions}
-%%\RequirePackage{contents}
 \RequirePackage[most]{tcolorbox}
-\RequirePackage[nott, scaled=0.5]{inconsolata}
 \RequirePackage[T1]{fontenc}
+\RequirePackage[nott]{inconsolata}
 \RequirePackage{calculator}
 \RequirePackage{ifthen}
 \RequirePackage{xparse}
 
 
-\newcommand{\titling}{\fontsize{18pt}{7pt}\selectfont}
-\newcommand{\titlingB}{\fontsize{18pt}{10pt}\selectfont}
-\newcommand{\BigTitle}{\fontsize{25pt}{30pt}\selectfont}
-%%\newcommand{\large}{\fontsize{15pt}{9pt}\selectfont}
-\newcommand{\large}{\fontsize{18pt}{10pt}\selectfont}
-\newcommand{\Large}{\fontsize{15pt}{12pt}\selectfont}
-\newcommand{\body}{\fontsize{18pt}{12pt}\selectfont}
-\newcommand{\normal}{\fontsize{10pt}{10pt}\selectfont}
-\newcommand{\header}{\fontsize{12pt}{10pt}\selectfont}
-\renewcommand{\normalsize}{\fontsize{10pt}{10pt}}
+
+%% Set up some commands and define some properties
+\newcommand{\titling}{\fontsize{8pt}{3pt}\selectfont}
+\newcommand{\titlingB}{\fontsize{9pt}{5pt}\selectfont}
+\newcommand{\BigTitle}{\fontsize{13pt}{15pt}\selectfont}
+\newcommand{\large}{\fontsize{9pt}{5pt}\selectfont}
+\newcommand{\Large}{\fontsize{8pt}{6pt}\selectfont}
+\newcommand{\body}{\fontsize{9pt}{11pt}\selectfont}
+\newcommand{\normal}{\fontsize{5pt}{7pt}\selectfont}
+\newcommand{\header}{\fontsize{6pt}{10pt}\selectfont}
+\renewcommand{\normalsize}{\fontsize{5pt}{7pt}}
 \newcommand{\small}{\fontsize{4pt}{6pt}\selectfont}
 \setlength{\paperwidth}{12.80cm}
 \setlength{\paperheight}{9.60cm}
 \setlength\parindent{0pt}
 \newcommand{\sss}{ \scriptscriptstyle }
+\setlength\labelsep{3pt}
+\setlength\topsep{0.3em}
+\setlength\leftmargin{12pt}
+\setlength\itemsep{0.2em}
 
+
+%% Set up fonts
+\RequirePackage[]{concmath}
+\renewcommand\rmdefault{zi4}
+\renewcommand\sfdefault{zi4}
+\renewcommand\ttdefault{zi4}
+\renewcommand\ttdefault{zi4}
+\renewcommand\familydefault{zi4}
+\renewcommand\seriesdefault{zi4}
+\renewcommand\shapedefault{zi4}
+\renewcommand\bfdefault{zi4} 
+\renewcommand\mddefault{zi4}
+\renewcommand\itdefault{zi4}
+\renewcommand\sldefault{zi4}
+\renewcommand\scdefault{zi4}
+\renewcommand\updefault{zi4}
+
+
+
+
+%% pull in dimension dependent packages
 \RequirePackage[ papersize={\paperwidth, \paperheight}, hmargin=0in, vmargin=0cm,
                  head=0.5cm, headsep=0cm, foot=0.5cm, right=0cm ]{geometry}
 \RequirePackage{lastpage}
 \RequirePackage[ subdivisions=3, heightr=1, width=\textwidth, borderwidth=0.0pt, roundnessa=0pt, linecolor=darkgray, tickswidth=0.0pt, ticksheight=0.0pt, emptycolor=gray, filledcolor=black]{ progressbar }
 
-\setlength\labelsep{3pt}
-\setlength\leftmargin{12pt}
 
+%% Do the permanancy thing
 \AtBeginDocument{
     \newcounter{sectionwritecounter}
     \setcounter{sectionwritecounter}{0}
@@ -56,7 +83,6 @@
     \newcounter{section}
     \setcounter{section}{0}
     \newcounter{sectionprintout}
-
 }
 
 \AtEndDocument{ 
@@ -66,6 +92,7 @@
 }
 
 
+%% Define the commands needed for the later environments
 \newtcolorbox{bgbox}[1][]{nobeforeafter,leftright skip=0in,boxrule=0pt,enhanced jigsaw,sharp corners,#1}
 \newtcolorbox{bgbox2}[1][]{nobeforeafter,leftright skip=0in,boxrule=0pt,enhanced jigsaw,sharp corners,#1,left=5pt,right=5pt,top=10pt,bottom=10pt}
 \def\token{TOKEN}
@@ -88,9 +115,9 @@
 \newcommand{\idot}{{\textcolor{white}{\textbullet}}}
 \newcommand{\bdot}{{\textcolor{black}{\textbullet}}}
 
-\setlength\itemsep{1em}
- 
 
+ 
+%% Title frame environment
 \NewDocumentCommand \titleframe{O{Title} O{Subtitle} O{Author} O{Location/Date} }
     { 
         \normal
@@ -123,10 +150,8 @@
 
 
 
-
-%%\renewenvironment{frame}[2][Title]
-%%\RenewDocumentEnvironment{frame}{O{Title} O{Author} O{Date} O{Collaboration} O{{}} }
-    \RenewDocumentEnvironment{frame}{O{Title} O{Author} O{Date} O{Collaboration} O{{}} O{CENTER} }
+%%Standard frame environment
+\RenewDocumentEnvironment{frame}{O{Title} O{Author} O{Date} O{Collaboration} O{{}} O{CENTER} }
 	{ 
 		\newpage 
         \pagecolor{darkgray}
@@ -162,9 +187,14 @@
 			\message{noref}	
 		}{
             \header{\underline{Learning Outcomes}:}\normal
+            \vspace{3pt}
+            \setlength{\leftmargin}{5pt}
+            \setlength\topsep{0em}
 			\begin{itemize}
+            \setlength{\itemsep}{0pt}
+            \setlength{\parindent}{0pt}
 			\@for\refitem:=#5\do{%
-				\item[\idot\;\;]\refitem	
+				\item[\idot]\refitem	
 			}
 			\end{itemize}
 			\message{ref}	
@@ -174,11 +204,17 @@
 		}{
             \vspace{0.3cm}
             \header{\underline{References}:}\normal
-			\begin{itemize}
+            \vspace{2pt}
+            \setlength{\leftmargin}{5pt}
+            \setlength\topsep{0em}
+            \begin{itemize}
+            \setlength{\itemsep}{0pt}
+            \setlength{\parindent}{0pt}
 			\@for\refitem:=#3\do{%
-				\item[\idot\;\;]\refitem	
+				\item[\idot]\refitem	
 			}
 			\end{itemize}
+            %%}
 		}
 		\begin{center}
 			\thepage/\pageref*{LastPage}
