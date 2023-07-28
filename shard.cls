@@ -39,7 +39,7 @@
 \newcommand{\header}{\fontsize{6pt}{10pt}\selectfont}
 \renewcommand{\normalsize}{\fontsize{5pt}{7pt}}
 \newcommand{\small}{\fontsize{4pt}{6pt}\selectfont}
-\setlength{\paperwidth}{12.80cm}
+\setlength{\paperwidth}{15.00cm}
 \setlength{\paperheight}{9.60cm}
 \setlength\parindent{0pt}
 \newcommand{\sss}{ \scriptscriptstyle }
