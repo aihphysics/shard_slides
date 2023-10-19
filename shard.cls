@@ -25,6 +25,7 @@
 \RequirePackage{calculator}
 \RequirePackage{ifthen}
 \RequirePackage{xparse}
+\RequirePackage{xpatch}
 
 
 
@@ -38,14 +39,16 @@
 \newcommand{\normal}{\fontsize{5pt}{7pt}\selectfont}
 \newcommand{\header}{\fontsize{6pt}{10pt}\selectfont}
 \renewcommand{\normalsize}{\fontsize{5pt}{7pt}}
-\newcommand{\small}{\fontsize{4pt}{6pt}\selectfont}
-\setlength{\paperwidth}{15.00cm}
+\newcommand{\small}{\fontsize{6pt}{6pt}\selectfont}
+\newcommand{\verysmall}{\fontsize{5pt}{6pt}\selectfont}
+\newcommand{\smaller}{\fontsize{8.5pt}{7pt}\selectfont}
+\setlength{\paperwidth}{15cm}
 \setlength{\paperheight}{9.60cm}
 \setlength\parindent{0pt}
 \newcommand{\sss}{ \scriptscriptstyle }
 \setlength\labelsep{3pt}
 \setlength\topsep{0.3em}
-\setlength\leftmargin{12pt}
+\setlength\leftmargin{5pt}
 \setlength\itemsep{0.2em}
 
 
@@ -64,6 +67,20 @@
 \renewcommand\sldefault{zi4}
 \renewcommand\scdefault{zi4}
 \renewcommand\updefault{zi4}
+
+
+\definecolor{fer}{RGB}{ 195 47 39  }
+\definecolor{xanthous}{RGB}{ 247, 181, 56 }
+\definecolor{ochre}{RGB}{ 219, 124, 38 }
+\definecolor{flame}{RGB}{ 216, 87, 42 }
+\definecolor{fer}{RGB}{ 195, 47, 39 }
+\definecolor{burg}{RGB}{ 120, 1, 22 }
+\definecolor{khaki}{RGB}{ 190, 183, 164 }
+\definecolor{night}{RGB}{ 1, 17, 10 }
+\definecolor{orng}{RGB}{ 186, 45, 11 }
+\definecolor{honey}{RGB}{ 213, 242, 227 }
+\definecolor{camb}{RGB}{ 115, 186, 155 }
+\definecolor{brg}{RGB}{ 0, 62, 31 }
 
 
 
@@ -93,7 +110,7 @@
 
 
 %% Define the commands needed for the later environments
-\newtcolorbox{bgbox}[1][]{nobeforeafter,leftright skip=0in,boxrule=0pt,enhanced jigsaw,sharp corners,#1}
+\newtcolorbox{bgbox}[1][]{nobeforeafter,leftright skip=0in,boxrule=0pt,enhanced jigsaw,sharp corners,#1,top=10pt}
 \newtcolorbox{bgbox2}[1][]{nobeforeafter,leftright skip=0in,boxrule=0pt,enhanced jigsaw,sharp corners,#1,left=5pt,right=5pt,top=10pt,bottom=10pt}
 \def\token{TOKEN}
 
@@ -112,10 +129,17 @@
   \message{\sectionlist}
 }
 
+
 \newcommand{\idot}{{\textcolor{white}{\textbullet}}}
 \newcommand{\bdot}{{\textcolor{black}{\textbullet}}}
 
+\newcommand{\oitem}{ \item[\bdot] }
+\newcommand{\nitem}{ \item[-] }
+\newcommand{\nnitem}{ \item[x] }
 
+\newcommand{\titem}{%
+  \item[\textcolor{red}{\textbullet}]
+}
  
 %% Title frame environment
 \NewDocumentCommand \titleframe{O{Title} O{Subtitle} O{Author} O{Location/Date} }
@@ -241,5 +265,24 @@
 		\end{bgbox}
 		\pagebreak
 	}
+
+\NewDocumentCommand \closeframe{O{Message} O{Author} O{extra} O{dedication} }
+    { 
+        \nopagebreak
+        \pagecolor{darkgray}
+	    \begin{bgbox}[ height=0.1\paperheight, colback=darkgray, width=\textwidth, rightrule=0pt ]
+		\end{bgbox}
+        \vspace{30pt}
+        \begin{center}
+            \BigTitle\textcolor{white}{#1}
+            \vspace{10pt}
+            \titling\\\textcolor{white}{#2}
+            \vspace{120pt}
+            \titling\\\textcolor{white}{#3}
+            \vspace{15pt}\\\textcolor{white}{\verysmall{#4}}
+        \end{center}
+	}
+
+
 	
 \pagenumbering{arabic}
